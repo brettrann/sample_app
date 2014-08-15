@@ -1,3 +1,6 @@
 --color
 --drb
+# dupes results to guard window
+--format doc
+# and dupes results to os x notifications
 --format Nc
