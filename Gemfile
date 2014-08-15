@@ -15,9 +15,6 @@ end
 group :test do
   gem 'selenium-webdriver', '2.35.1'
   gem 'capybara', '2.1.0'
-  gem 'spork-rails', '4.0.0'
-  gem 'guard-spork', '1.5.0'
-  gem 'childprocess'
 end
 
 gem 'pg', '0.15.1'
