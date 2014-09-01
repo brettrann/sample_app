@@ -49,20 +49,30 @@ describe "Authentication" do
       let(:user) { FactoryGirl.create(:user) }
 
       describe "when attempting to visit a protected page" do
-        let(:user) { FactoryGirl.create(:user) }
+        before do
+          visit edit_user_path(user)
+          fill_in "Email",    with: user.email
+          fill_in "Password", with: user.password
+          click_button "Sign in"
+        end
 
-        describe "when attempting to visit a protected page" do
-          before do
-            visit edit_user_path(user)
-            fill_in "Email",    with: user.email
-            fill_in "Password", with: user.password
-            click_button "Sign in"
+        describe "after signing in" do
+
+          it "should render the desired proteted page" do
+            expect(page).to have_title('Edit user')
           end
 
-          describe "after signing in" do
+          describe "when signing in again" do
+            before do
+              click_link "Sign out"
+              visit signin_path
+              fill_in "Email",      with: user.email
+              fill_in "Password",   with: user.password
+              click_button "Sign in"
+            end
 
-            it "should render the desired proteted page" do
-              expect(page).to have_title('Edit user')
+            it "should render the default (profile) page" do
+              expect(page).to have_title(user.name)
             end
           end
         end
@@ -99,10 +109,22 @@ describe "Authentication" do
         end
       end
 
-        describe "visiting the user index" do
-          before { visit users_path }
-          it { should have_title('Sign in') }
-        end
+      describe "visiting the user index" do
+        before { visit users_path }
+        it { should have_title('Sign in') }
+      end
+    end
+
+    describe "as non-admin user" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:non_admin) { FactoryGirl.create(:user) }
+
+      before { sign_in non_admin, no_capybara: true }
+
+      describe "submitting a DELETE request to the Users#destroy action" do
+        before { delete user_path(user) }
+        specify { expect(response).to redirect_to(root_url) }
+      end
     end
   end
 end
