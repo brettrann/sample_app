@@ -32,7 +32,7 @@ namespace :db do
   end
 
   def make_relationships
-    users = Users.all
+    users = User.all
     user = users.first
     followed_users = users[2..50]
     followers      = users[3..40]
