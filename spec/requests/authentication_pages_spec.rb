@@ -36,9 +36,16 @@ describe "Authentication" do
       it { should have_link('Sign out',     href: signout_path) }
       it { should_not have_link('Sign in',  href: signin_path) }
 
+
+
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
+        it { should_not have_selector('nav', text: "Users") }
+        it { should_not have_selector('nav #account-fat-menu') }
+        it { should_not have_selector('nav', text: "Profile") }
+        it { should_not have_selector('nav', text: "Settings") }
+        it { should_not have_selector('nav', text: "Sign out") }
       end
     end
   end
