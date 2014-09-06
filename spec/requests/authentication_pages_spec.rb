@@ -10,6 +10,7 @@ describe "Authentication" do
     it { should have_title('Sign in') }
   end
 
+
   describe "signin" do
     before { visit signin_path }
 
@@ -49,6 +50,7 @@ describe "Authentication" do
       end
     end
   end
+
 
   describe "authorization" do
 
@@ -127,6 +129,8 @@ describe "Authentication" do
         it { should have_title('Sign in') }
       end
 
+
+
       describe "in the Microposts controller" do
 
         describe "submitting to the create action" do
@@ -149,6 +153,31 @@ describe "Authentication" do
         describe "submitting to the destroy action" do
           before { delete relationship_path(1) }
           specify { expect(response).to redirect_to(signin_path) }
+        end
+      end
+    end
+    describe "as a signed in user" do
+      describe "visiting the signup page" do
+        let(:user) { FactoryGirl.create(:user) }
+        before do
+          sign_in user
+          visit signup_path
+        end
+
+        it { should have_title(full_title '' ) }
+        it { should_not have_content('Sign up') }
+        it { should_not have_title(full_title('Sign up')) }
+      end
+
+      describe "in the Users controller" do
+        describe 'submitting to the create action' do
+          let(:new_user) { FactoryGirl.attributes_for(:user) }
+          let(:user) { FactoryGirl.create(:user) }
+          before do
+            sign_in user, no_capybara: true
+            post users_path user: new_user
+          end
+          specify { response.should redirect_to(root_path) }
         end
       end
     end
