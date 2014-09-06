@@ -169,7 +169,7 @@ describe "Authentication" do
           let(:user) { FactoryGirl.create(:user) }
           before do
             sign_in user, no_capybara: true
-            post users_path user: new_user
+            expect { post users_path user: new_user }.to_not change(User, :count)
           end
           specify { response.should redirect_to(root_path) }
         end
