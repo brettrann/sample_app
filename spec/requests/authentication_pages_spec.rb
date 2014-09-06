@@ -164,7 +164,7 @@ describe "Authentication" do
           visit signup_path
         end
 
-        it { should have_title(full_title '' ) }
+        it { should have_title(full_title) }
         it { should_not have_content('Sign up') }
         it { should_not have_title(full_title('Sign up')) }
       end
