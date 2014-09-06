@@ -10,7 +10,6 @@ describe "Authentication" do
     it { should have_title('Sign in') }
   end
 
-
   describe "signin" do
     before { visit signin_path }
 
@@ -37,8 +36,6 @@ describe "Authentication" do
       it { should have_link('Sign out',     href: signout_path) }
       it { should_not have_link('Sign in',  href: signin_path) }
 
-
-
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
@@ -50,7 +47,6 @@ describe "Authentication" do
       end
     end
   end
-
 
   describe "authorization" do
 
@@ -128,8 +124,6 @@ describe "Authentication" do
         before { visit users_path }
         it { should have_title('Sign in') }
       end
-
-
 
       describe "in the Microposts controller" do
 
