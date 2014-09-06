@@ -63,4 +63,44 @@ describe "MicropostPages" do
       it { should have_content('2 microposts') }
     end
   end
+
+  describe "micropost pagination" do
+    let (:user    ) { FactoryGirl.create(:user)                }
+    let (:selector) { 'ol.microposts li#'                      }
+    let (:first   ) { selector + user.microposts.last.id.to_s  }
+    let (:last    ) { selector + user.microposts.first.id.to_s }
+
+    before do
+      31.times { FactoryGirl.create(:micropost, user: user) }
+      sign_in user
+    end
+
+    describe "when on home page" do
+      before { visit root_path }
+      describe "micropost feed page 1" do
+        it { should_not have_selector(first) }
+        it { should     have_selector(last ) }
+      end
+
+      describe "micropost feed page 2" do
+        before { click_link "Next" }
+        it { should     have_selector(first) }
+        it { should_not have_selector(last ) }
+      end
+    end
+
+    describe "when on profile page" do
+      before { visit user_path(user) }
+      describe "micropost feed page 1" do
+        it { should_not have_selector(first) }
+        it { should     have_selector(last ) }
+      end
+
+      describe "micropost feed page 2" do
+        before { click_link "Next" }
+        it { should     have_selector(first) }
+        it { should_not have_selector(last ) }
+      end
+    end
+  end
 end
