@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe "MicropostPages" do
-  let(:user) { FactoryGirl.create(:user) }
-  before { sign_in user }
 
   subject { page }
 
+  let(:user) { FactoryGirl.create(:user) }
+  before { sign_in user }
 
   describe "micropost creation" do
     before { visit root_path }
