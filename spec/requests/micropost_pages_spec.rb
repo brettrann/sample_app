@@ -52,7 +52,7 @@ describe "MicropostPages" do
         FactoryGirl.create(:micropost, user: user)
         visit root_path
       end
-      it { should have_content('1 micropost') }
+      it { should have_content(/1 micropost[^s]/) }
     end
     describe "with two microposts" do
       before do
