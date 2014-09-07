@@ -31,7 +31,11 @@ describe "MicropostPages" do
   end
 
   describe "micropost destruction" do
-    before { FactoryGirl.create(:micropost, user: user) }
+    let(:other_user) { FactoryGirl.create(:user) }
+    before do
+      FactoryGirl.create(:micropost, user: user)
+      other_user.follow!(user)
+    end
 
     describe "as correct user" do
       before { visit root_path }
@@ -39,6 +43,15 @@ describe "MicropostPages" do
       it "should delete a micropost" do
         expect { click_link "delete" }.to change(Micropost, :count).by(-1)
       end
+    end
+
+    describe "as incorrect user" do
+      before do
+        sign_in other_user
+        visit root_path
+      end
+
+      it { should_not have_selector('ol.microposts li a', text: 'delete') }
     end
   end
 
