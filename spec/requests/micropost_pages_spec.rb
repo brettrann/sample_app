@@ -21,7 +21,7 @@ describe "MicropostPages" do
       end
     end
 
-    describe "with valid information" do
+    describe "with valid information", :js => true do
 
       before { fill_in 'micropost_content', with: "Lorem ipsum" }
       it "should create a micropost" do
@@ -39,6 +39,7 @@ describe "MicropostPages" do
 
     describe "as correct user" do
       before { visit root_path }
+
 
       it "should delete a micropost" do
         expect { click_link "delete" }.to change(Micropost, :count).by(-1)
@@ -120,7 +121,10 @@ describe "MicropostPages" do
   describe "micropost character count", :js => true do
     before { visit root_path }
     describe "when on home page" do
-      it { should have_content "Micropost feed" }
+      it "should show remaining characters" do
+        # save_and_open_page show the current page, handy!
+        expect(page).to have_content("Micropost Feed")
+      end
     end
 
   end

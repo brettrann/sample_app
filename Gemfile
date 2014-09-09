@@ -17,6 +17,7 @@ group :development, :test do
   gem 'guard-spork', '1.5.0'
   gem 'childprocess'
   gem 'poltergeist'
+  gem 'launchy' # for save_and_open
 
   # OS X notifications
   gem 'rspec-nc'
