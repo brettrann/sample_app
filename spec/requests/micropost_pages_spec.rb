@@ -30,7 +30,7 @@ describe "MicropostPages" do
     end
   end
 
-  describe "micropost destruction" do
+  describe "micropost destruction", :js => true do
     let(:other_user) { FactoryGirl.create(:user) }
     before do
       FactoryGirl.create(:micropost, user: user)
@@ -115,5 +115,13 @@ describe "MicropostPages" do
         it { should_not have_selector(last ) }
       end
     end
+  end
+
+  describe "micropost character count", :js => true do
+    before { visit root_path }
+    describe "when on home page" do
+      it { should have_content "Micropost feed" }
+    end
+
   end
 end
