@@ -124,8 +124,13 @@ describe "MicropostPages" do
       it "should show remaining characters" do
         # save_and_open_page show the current page, handy!
         expect(page).to have_content("Micropost Feed")
+        expect(page).to have_content("Characters remaining: 140")
+        #both the below work. not sure if second is required to trigger JS
+        #fill_in "micropost_content", :with => "test"
+        find('textarea#micropost_content').native.send_key("test")
+        expect { click_button "Post" }.to change(Micropost, :count)
+        expect(page).to have_content("Characters remaining: 136")
       end
     end
-
   end
 end
